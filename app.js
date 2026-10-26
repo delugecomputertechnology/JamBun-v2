@@ -12,6 +12,17 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt
 const baseUrl = location.origin + location.pathname;
 const half = QUESTIONS.length / 2;
 let timer = null;   // leaderboard auto-refresh timer
+// Browser la list save / edukka (quiz IDs gnabagam vechukka)
+const getList = (key) => {
+  try { return JSON.parse(localStorage.getItem(key) || "[]"); } catch { return []; }
+};
+const addToList = (key, value) => {
+  try {
+    const list = getList(key);
+    if (!list.includes(value)) list.push(value);
+    localStorage.setItem(key, JSON.stringify(list));
+  } catch {}
+};
 
 // Firebase 10 sec la reply tharala-na error kaatum (apdi illana "Saving..." la stuck aagidum)
 const withTimeout = (promise, ms = 10000) =>
@@ -145,6 +156,7 @@ async function saveQuiz(name, answers, rewardGif) {
   try {
     const ref = await withTimeout(addDoc(collection(db, "quizzes"),
       { name, answers, rewardGif, createdAt: serverTimestamp() }));
+    addToList("myQuizzes", ref.id);     // idhu naan create panna quiz
     location.hash = "#/share/" + ref.id;
   } catch (e) {
     showError(e, () => saveQuiz(name, answers, rewardGif));
@@ -227,6 +239,11 @@ illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day 
 
 // Play page — friend answer panra page
 async function playPage(id) {
+    // Own quiz na, play panna vidaama leaderboard ku anuppu
+  if (getList("myQuizzes").includes(id)) {
+    location.hash = "#/share/" + id;
+    return;
+  }
   show("<h2>Loading quiz...</h2>");
   let quiz;
   try {
