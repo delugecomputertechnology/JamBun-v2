@@ -244,6 +244,17 @@ async function playPage(id) {
     location.hash = "#/share/" + id;
     return;
   }
+    // Already answer pannita, play panna vidaama leaderboard kaattu
+  if (getList("playedQuizzes").includes(id)) {
+    show(`<h2>Already played ✅</h2>
+          <p>Nee indha quiz ku already answer pannita.</p>
+          <h2 class="section">Leaderboard 🏆</h2>
+          <div id="board"><p class="small">Loading...</p></div>
+          <button class="btn" id="mine">Create my own quiz</button>`);
+    $("mine").onclick = () => { location.hash = "#/"; };
+    fillLeaderboard(id);
+    return;
+  }
   show("<h2>Loading quiz...</h2>");
   let quiz;
   try {
@@ -277,6 +288,7 @@ async function finish(id, quiz, friend, guesses) {
     await withTimeout(addDoc(collection(db, "quizzes", id, "attempts"),
       { friend, score, createdAt: serverTimestamp() }));
   } catch (e) { return showError(e, () => finish(id, quiz, friend, guesses)); }
+   addToList("playedQuizzes", id);     // indha quiz ku answer pannitta nu gnabagam vai
 
   const board = `<h2 class="section">Leaderboard 🏆</h2>
                  <div id="board"><p class="small">Loading...</p></div>`;
