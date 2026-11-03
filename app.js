@@ -181,12 +181,12 @@ function sharePage(id) {
   // PASS + first-time creators ku (un pazhaya msg ah inga vechiko)
   const msgPass = `${toBold("Hi!")} Enna pathi idhula ketruka questions ku ${toBold("Correct")} ah answer pannu... \n
 ${toBold("Above 7 Correct")} ah answer panna unnaku oru ${toBold("reward")} irruku \n
-illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day full")} ah ${toBold("Notes")} vaikanum \n
+illa ${toBold("Out")} aaita naa soldra ${toBold("Song")} ah ${toBold("Notes")} vaikanum😇 \n
  ${toBold("Click Here!")}`;
   // OUT aanavanga ku (inga vera msg ezhudhu)
   const msgOut = `${toBold("Hi!")} Enna pathi idhula ketruka questions ku ${toBold("Correct")} ah answer pannu... \n
 ${toBold("Above 7 Correct")} ah answer panna unnaku oru ${toBold("reward")} irruku \n
-illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day full")} ah ${toBold("Notes")} vaikanum \n
+illa ${toBold("Out")} aaita naa soldra ${toBold("Song")} ah ${toBold("Notes")} vaikanum😇 \n
  ${toBold("Click Here!")}`;
   const dare = `${toBold("DARE NOTES:")}
 1.Crush kitta pesiten 😭❤️ \n
@@ -206,7 +206,7 @@ illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day 
 15.Yaaru enakku best friend nu prove pannunga 🫶 \n
 16.Enna paatha innocent-ah theriyudha? 😇 \n`
   const msg = result === "out" ? msgOut : msgPass;
-  const fullText = `${msg}\n${link}\n${dare}`;
+  const fullText = `${msg}\n${link}`;
   const note = result === "win" ? SHARE_WIN_MESSAGE
              : result === "out" ? SHARE_OUT_MESSAGE : "";
   show(`<h1>Quiz ready! 🎉</h1>
